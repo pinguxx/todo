@@ -1,0 +1,81 @@
+/* App-wide styling */
+body {
+    background-color: #0f1116;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+}
+
+#hero {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#links {
+    width: 400px;
+    text-align: left;
+    font-size: x-large;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#links a {
+    color: white;
+    text-decoration: none;
+    margin-top: 20px;
+    margin: 10px 0px;
+    border: white 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#links a:hover {
+    background-color: #1f1f1f;
+    cursor: pointer;
+}
+
+#header {
+    max-width: 1200px;
+}
+
+.edit {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.modal-overlay {
+    /* Ensure the overlay covers the entire viewport */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Semi-transparent dark background */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Center the modal content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Ensure it's on top of other elements */
+    z-index: 1000;
+}
+
+.modal-content {
+    /* Basic styling for the dialog box */
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    /* Shadow for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Control size */
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    /* Ensure content is above the overlay */
+    z-index: 1001;
+    color: black;
+}
