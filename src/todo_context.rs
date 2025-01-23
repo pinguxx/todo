@@ -2,8 +2,14 @@ use serde::{Deserialize, Serialize};
 use cfg_if::cfg_if;
 
 #[derive(Clone, Default, Serialize, Deserialize)]
+pub struct Todo {
+    pub text: String,
+    pub category: Option<String>,
+}
+
+#[derive(Clone, Default, Serialize, Deserialize)]
 pub struct TodoState {
-    pub todos: Vec<String>,
+    pub todos: Vec<Todo>,
 }
 
 cfg_if! {
@@ -11,7 +17,7 @@ cfg_if! {
         use wasm_bindgen::JsValue;
         use gloo_utils::format::JsValueSerdeExt;
         
-        pub fn save_todos(todos: &[String]) {
+        pub fn save_todos(todos: &[Todo]) {
             if let Some(storage) = web_sys::window().and_then(|w| w.local_storage().ok().flatten()) {
                 // Convert Vec<String> to JsValue using gloo-utils
                 let todos_json = JsValue::from_serde(todos).unwrap();
@@ -20,25 +26,25 @@ cfg_if! {
             }
         }
 
-        pub fn load_todos() -> Vec<String> {
+        pub fn load_todos() -> Vec<Todo> {
             if let Some(storage) = web_sys::window().and_then(|w| w.local_storage().ok().flatten()) {
                 if let Ok(Some(todos_json)) = storage.get_item("todos") {
                     // Convert JsValue back to Vec<String>
-                    return serde_json::from_str::<Vec<String>>(&todos_json).unwrap();
+                    return serde_json::from_str::<Vec<Todo>>(&todos_json).unwrap();
                 }
             }
             Vec::new()
         }
     } else {
         use std::fs;
-        pub fn save_todos(todos: &[String]) {
+        pub fn save_todos(todos: &[Todo]) {
             let data = TodoState { todos: todos.to_vec() };
             if let Ok(json) = serde_json::to_string(&data) {
                 fs::write("todos.json", json).expect("Unable to write file");
             }
         }
 
-        pub fn load_todos() -> Vec<String> {
+        pub fn load_todos() -> Vec<Todo> {
             if let Ok(contents) = fs::read_to_string("todos.json") {
                 if let Ok(data) = serde_json::from_str::<TodoState>(&contents) {
                     return data.todos;
